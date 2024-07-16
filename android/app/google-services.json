@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "386308882818",
+    "project_id": "asm-ptcn",
+    "storage_bucket": "asm-ptcn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386308882818:android:1eb50295a0ac70f9ca8f9b",
+        "android_client_info": {
+          "package_name": "com.cro102_asm_ph45160"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAv0KKiwlt5DrgZFmjk45OxgP4YKvQbR-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
