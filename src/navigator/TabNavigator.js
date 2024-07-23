@@ -38,14 +38,14 @@ const TabNavigator = () => {
           ),
         }}></Tab.Screen>
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Health"
         component={Health}
         options={{
           tabBarIcon: ({focused, color, size}) => (
             <Image source={require('../img/2.png')} style={{tintColor: focused ? '#636AF2' : '#8B8787'}}/>
           ),
-        }}></Tab.Screen>
+        }}></Tab.Screen> */}
 
       <Tab.Screen
         name="YogaAndBMI"

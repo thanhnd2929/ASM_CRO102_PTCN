@@ -1,11 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 
 const Header = ({ title }) => {
   const navigation = useNavigation();
-
+  console.log("header ....s");
   const handleGoBack = () => {
     console.log('Back icon pressed');
     navigation.goBack();
@@ -13,12 +13,13 @@ const Header = ({ title }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.icon} onPress={handleGoBack}>
-        <Icon
+      <Pressable  onPress={handleGoBack}>
+      <Icon  
           name='arrowleft'
           size={30}
           color='#000'/>
-      </TouchableOpacity>
+      </Pressable>
+      
       <Text style={styles.title}>{title}</Text>
     </View>
   );
@@ -33,6 +34,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#8D92F2',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     paddingHorizontal: 10,
   },
   icon: {
@@ -45,5 +47,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#000',
+    marginRight: 24
   },
 });
