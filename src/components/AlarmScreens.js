@@ -22,6 +22,7 @@ const AlarmScreen = () => {
     // Đặt thông báo
     PushNotification.localNotificationSchedule({
       id: notificationId,
+      channelId: "reminder-channel", // Kênh thông báo
       title: 'Reminder',
       message: `Reminder: ${reminderText}`,
       date: reminderDate, // Thời gian để thông báo hiện

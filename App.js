@@ -56,7 +56,7 @@ const App = () => {
       <StatusBar backgroundColor='#D5D7F2' barStyle='light-content' />
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name='Login' component={Login} />
-        <Stack.Screen name='Resgister' component={Register} />
+        <Stack.Screen name='Register' component={Register} />
         <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='BottomTab' component={TabNavigator} />
         <Stack.Screen name='EditProfile' component={EditProfile} />

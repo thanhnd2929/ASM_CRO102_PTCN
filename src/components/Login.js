@@ -12,31 +12,69 @@ import React, {useState, useEffect} from 'react';
 import auth from '@react-native-firebase/auth';
 import CheckBox from 'react-native-check-box';
 import { useNavigation } from '@react-navigation/native';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
 
   const [isChecked, setIsChecked] = useState(false);
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const navigation = useNavigation();
 
- 
-  const onLogin = () => {
+  useEffect(() => {
+    // Khi component được tải, kiểm tra AsyncStorage để lấy thông tin email và password nếu có
+    const loadCredentials = async () => {
+      try {
+        const savedEmail = await AsyncStorage.getItem('email');
+        const savedPassword = await AsyncStorage.getItem('password');
+        const savedRememberMe = await AsyncStorage.getItem('rememberMe');
+
+        if (savedRememberMe === 'true') {
+          setEmail(savedEmail || '');
+          setPassword(savedPassword || '');
+          setIsChecked(true);
+        }
+      } catch (error) {
+        console.log('Lỗi khi tải thông tin từ AsyncStorage:', error);
+      }
+    };
+
+    loadCredentials();
+  }, []);
+
+  const onLogin = async () => {
     if (!email || !password) {
       Alert.alert('Lỗi', 'Vui lòng điền đầy đủ thông tin.');
       return;
     }
 
-
     auth()
       .signInWithEmailAndPassword(email, password)
-      .then((res) => {
+      .then(async (res) => {
         console.log('Login response:', res);
         ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
         
+        // Lưu thông tin vào AsyncStorage nếu checkbox được chọn
+        if (isChecked) {
+          try {
+            await AsyncStorage.setItem('email', email);
+            await AsyncStorage.setItem('password', password);
+            await AsyncStorage.setItem('rememberMe', 'true');
+          } catch (error) {
+            console.log('Lỗi khi lưu thông tin vào AsyncStorage:', error);
+          }
+        } else {
+          // Xóa thông tin khỏi AsyncStorage nếu checkbox không được chọn
+          try {
+            await AsyncStorage.removeItem('email');
+            await AsyncStorage.removeItem('password');
+            await AsyncStorage.removeItem('rememberMe');
+          } catch (error) {
+            console.log('Lỗi khi xóa thông tin khỏi AsyncStorage:', error);
+          }
+        }
+
         navigation.navigate('BottomTab'); // Chuyển sang màn hình Home
         setEmail('');
         setPassword('');
@@ -59,8 +97,7 @@ const Login = () => {
         }
         ToastAndroid.show(errorMessage, ToastAndroid.SHORT);
       });
-      
-  }
+  };
 
   return (
     <View style={{flex: 1, backgroundColor: '#D5D7F2'}}>
@@ -76,7 +113,7 @@ const Login = () => {
           alignSelf: 'center',
           marginTop: 20,
         }}>
-        Wellcome Back
+        Welcome Back
       </Text>
       <Text
         style={{
@@ -96,7 +133,6 @@ const Login = () => {
         placeholderTextColor="#828282"
         value={email}
         onChangeText={value => setEmail(value)}
-        multiline
       />
       <TextInput
         style={styles.input}
@@ -104,7 +140,7 @@ const Login = () => {
         placeholderTextColor="#828282"
         value={password}
         onChangeText={value => setPassword(value)}
-        multiline
+        secureTextEntry
       />
 
       <View style={{marginVertical: 12, marginLeft: 28}}>
@@ -137,7 +173,7 @@ const Login = () => {
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
         <Text style={{color: '#828282', marginTop: 36, fontSize: 16}}>
           Don’t have account? Click{' '}
-          <Text onPress={() => navigation.navigate('Resgister')} style={{color: '#3D46F2'}}>Register</Text>
+          <Text onPress={() => navigation.navigate('Register')} style={{color: '#3D46F2'}}>Register</Text>
         </Text>
         <Text style={{color: '#828282', marginTop: 10, fontSize: 16}}>
           Forget Password? Click <Text style={{color: '#3D46F2'}}>Reset</Text>
